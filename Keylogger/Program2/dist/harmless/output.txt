@@ -1,0 +1,2 @@
+hello world[ENTER]
+Key.ctrl_lKey.alt_l[DEL]

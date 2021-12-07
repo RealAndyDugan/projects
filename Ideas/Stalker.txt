@@ -1,2 +1,3 @@
 Program that logs activity of a target
 	- Idk how this would work
+	- Think of platforms this could work on

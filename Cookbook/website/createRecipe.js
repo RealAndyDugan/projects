@@ -16,6 +16,8 @@ function fields() {
 			result = JSON.parse(xhr.responseText);
 			console.log(result.id);
 			window.alert("Recipe Created");
+			//var res = document.getElementById("out");
+			//res.intterHTML = "Recipe Created";
 		}
 		xhr.send(JSON.stringify(object));
 	};

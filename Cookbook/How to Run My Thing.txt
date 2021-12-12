@@ -1,3 +1,9 @@
 Make Sure xampp Apache server is running
 	- Can edit files in XAMPP htdocs folder
 localhost/cookbook.html
+
+OR
+
+While in cookbook/website/ dir,
+run http-server
+localhost:8080

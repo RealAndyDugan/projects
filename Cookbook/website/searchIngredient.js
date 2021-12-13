@@ -1,14 +1,19 @@
 function fields() {
+	//Get user input
 	var fname = document.getElementById('Ingredient').value;
 	var name = fname.replace(" ", "_");
+	//If user input is empty
 	if(name.length == 0) {
 		window.alert("You have to enter an ingredient");
 	}
+	//Continue if user input isnt empty
 	else {
+		//Create request
 		var xhr = new XMLHttpRequest();
 		var url = "https://sandbox-andy-dev-test-developer-edition.cs96.force.com/services/apexrest/cookbook/searchIngredients";
 		var proxy = 'https://thingproxy.freeboard.io/fetch/';
 		xhr.open("GET", proxy+url+"?searchTerm="+name, true);
+		//Read response
 		xhr.onload = function () {
 			var result = JSON.parse(xhr.responseText);
 			var formatted = document.createElement("P");
@@ -16,6 +21,7 @@ function fields() {
 			if(result != 0) {
 				lb = document.createElement("br");
 				document.getElementById("body").appendChild(lb);
+				//Call response parsing/displaying function
 				readArray(result);
 			}
 			//If no results found
@@ -29,6 +35,7 @@ function fields() {
 		xhr.send(url);
 	};
 	
+	//Function for reading response array and displaying it
 	function readArray(arr) {
 		for(i = 0; i < arr.length; i++) {
 			//Display ingredient name

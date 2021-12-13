@@ -1,11 +1,13 @@
 function fields() {
+	//Get user input
 	var fname = document.getElementById('RecipeName').value;
 	var name = fname.replace(" ", "_");
-	//If field is empty
+	//If input is empty
 	if(name.length == 0) {
 		window.alert("Recipe Name cannot be empty");
 	}
-	//If field is entered correctly
+	
+	//Continue if field is entered correctly
 	else {
 		var xhr = new XMLHttpRequest();
 		var url = "https://sandbox-andy-dev-test-developer-edition.cs96.force.com/services/apexrest/cookbook/searchRecipes";

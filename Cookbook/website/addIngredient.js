@@ -21,9 +21,9 @@ function fields() {
 			result = JSON.parse(xhr.responseText);
 			//If a recipe is found
 			if(result != 0) {
-				//Query results for recipe that exactly matches recipe entered
+				//Iterate through results for recipes that exactly matches recipe entered
 				for(i = 0; i < result.length; i++) {
-					//If found, continue to adding recipe
+					//If found, continue to adding ingredient
 					if(result[i].name.toLowerCase() === fname.toLowerCase()) {
 						recipeId = result[i].id;
 						addIngredient(recipeId);

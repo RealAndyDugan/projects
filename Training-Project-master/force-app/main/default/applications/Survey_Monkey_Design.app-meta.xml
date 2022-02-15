@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Survey Monkey Design</label>
+    <navType>Standard</navType>
+    <tabs>Taking_A_Survey</tabs>
+    <tabs>View_My_Responses</tabs>
+    <tabs>View_All_Responses</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>

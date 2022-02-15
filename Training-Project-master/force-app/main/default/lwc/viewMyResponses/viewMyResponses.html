@@ -1,0 +1,269 @@
+<template>
+    <div class="slds-scope slds-card">
+        <div class="slds-card__header slds-grid slds-m-bottom_large">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <img src={surveyMonkeyLogo} style="height:30px;">
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <div class="slds-p-horizontal_small">
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="expando-unique-id" aria-expanded class="slds-button slds-section__title-action" onclick={customerSurveyButtonClick}>
+                            <lightning-icon icon-name={customerSurveyIconName} alternative-text="View Results" size="x-small" class="slds-m-right_small"></lightning-icon>
+                            <span class="slds-truncate">Customer Satisfaction Survey</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class={customerSurveyClassList} id="expando-unique-id-1">
+                        <lightning-tabset>
+                            <lightning-tab label="Responses">
+                                <div class="sm-container_responses slds-p-horizontal_small slds-scrollable_y">
+                                    <ul class="sm-question-list">
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q1</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                What best describes your occupation? 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Web Developer
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q2</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                In what city do you work?  
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Chicago
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q3</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                What month did you start? 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                September
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q4</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                Select all software you have experience using professionally.
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Photoshop, Illustrator, InDesign, VS Code
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q5</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                How many hours a week do you use the product? 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                6-10
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                    </ul>
+                                </div>
+                            </lightning-tab>
+                            <lightning-tab label="Survey Details">
+                                <div class="slds-p-horizontal_small">
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form slds-form_compound">
+                                            <div class="slds-form-element__row">
+                                                <lightning-input id="input-1" 
+                                                                 class="slds-size_1-of-1"
+                                                                 label="Survey Name" 
+                                                                 value="Customer Satisfaction"
+                                                                 readonly>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <lightning-input id="input-2" 
+                                                                 class="slds-size_1-of-1"
+                                                                 label="Date Submitted" 
+                                                                 value="08-12-2018"
+                                                                 readonly>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-tab>
+                        </lightning-tabset>
+                    </div>
+                </div>
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="expando-unique-id" aria-expanded class="slds-button slds-section__title-action" onclick={productReviewButtonClick}>
+                            <lightning-icon icon-name={productReviewIconName} size="x-small" class="slds-m-right_small"></lightning-icon>
+                            <span class="slds-truncate">Product Review</span>
+                        </button>
+                    </h3>
+                    <div aria-hidden="false" class={productReviewClassList} id="expando-unique-id-2">
+                        <lightning-tabset>
+                            <lightning-tab label="Responses">
+                                <div class="sm-container_responses slds-p-horizontal_small slds-scrollable_y">
+                                    <ul class="sm-question-list">
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q1</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                How did you hear about our product? 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Friend
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q2</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                How long have you been using Adobe Illustrator?  
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                1-3 years
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q3</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                What is your favorite feature of Adobe Illustrator? 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Shape Builder Tool
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q4</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                What is your least favorite feature about Adobe Illustrator?
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Gradient mesh tool
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q5</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                Would you recommend this product? 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                Yes
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                    </ul>
+                                </div>
+                            </lightning-tab>
+                            <lightning-tab label="Survey Details">
+                                <div class="slds-p-horizontal_small">
+                                    <div class="slds-form slds-form_compound">
+                                        <div class="slds-form slds-form_compound">
+                                            <div class="slds-form-element__row">
+                                                <lightning-input id="input-3" 
+                                                                 class="slds-size_1-of-1"
+                                                                 label="Survey Name" 
+                                                                 value="Product Satisfaction Survey"
+                                                                 readonly>
+                                                </lightning-input>
+                                            </div>
+                                            <div class="slds-form-element__row">
+                                                <lightning-input id="input-4" 
+                                                                 class="slds-size_1-of-1"
+                                                                 label="Date Submitted" 
+                                                                 value="08-12-2018"
+                                                                 readonly>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-tab>
+                        </lightning-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

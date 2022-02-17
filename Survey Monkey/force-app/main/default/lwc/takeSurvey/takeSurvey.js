@@ -5,13 +5,14 @@ import getQuestionList from '@salesforce/apex/getQuestions.getQuestionList';
 import createUserSurvey from '@salesforce/apex/createSurvey.createUserSurvey';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { NavigationMixin } from 'lightning/navigation';
 import NAME_FIELD from '@salesforce/schema/Template__c.Name';
 
 const FIELDS = [
     NAME_FIELD,
 ];
 
-export default class TakeSurvey extends LightningElement {
+export default class TakeSurvey extends NavigationMixin(LightningElement) {
     surveyMonkeyLogo = logo;
 
     //Get template ID from URL param
@@ -77,7 +78,17 @@ export default class TakeSurvey extends LightningElement {
                 console.log(error);
                 this.dispatchEvent(event);
             });
-        }
+
+            //Change Page
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: this.recordId,
+                    objectApiName: 'Template__c', // objectApiName is optional
+                    actionName: 'view'
+                }
+            });
+    }
 }
 
 //TODO or ?s
@@ -86,4 +97,4 @@ export default class TakeSurvey extends LightningElement {
 //$recordId thing --> fixed
 //How to view other peoples surveys
 //Getting user answers --> fixed, needs optimization
-//Page redirect to personal surveys page after survey submit
+//Page redirect to survey template page? --> Done

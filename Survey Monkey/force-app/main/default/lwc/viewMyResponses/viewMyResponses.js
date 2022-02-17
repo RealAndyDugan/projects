@@ -1,10 +1,10 @@
 import { LightningElement, track } from 'lwc';
-
+import Id from '@salesforce/user/Id';
 import logo from '@salesforce/resourceUrl/surveyMonkey_logo';
 
 export default class ViewMyResponses extends LightningElement {
     surveyMonkeyLogo = logo;
-
+    userId = Id;
     @track customerSurveyOpen = false;
     @track productReviewOpen = false;
 
@@ -31,4 +31,8 @@ export default class ViewMyResponses extends LightningElement {
     productReviewButtonClick() {
         this.productReviewOpen = !this.productReviewOpen;
     }
+
+    //*****************************************//
+
+
 }

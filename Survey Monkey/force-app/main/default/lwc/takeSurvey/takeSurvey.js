@@ -90,11 +90,3 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
             });
     }
 }
-
-//TODO or ?s
-
-//Q# Size and formatting
-//$recordId thing --> fixed
-//How to view other peoples surveys
-//Getting user answers --> fixed, needs optimization
-//Page redirect to survey template page? --> Done

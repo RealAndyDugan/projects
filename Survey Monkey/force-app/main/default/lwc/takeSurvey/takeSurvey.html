@@ -16,24 +16,21 @@
             <div class="slds-p-horizontal_small">
                 <div class="sm-container_responses slds-p-horizontal_small slds-scrollable_y">
                     <ul class="sm-question-list">
-                        <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
                             <!-- Question # -->
                             <template if:true={questions.data}>
+                                
                                 <template for:each={questions.data} for:item="question">
-                                    <h4 key={question.Id} class="slds-text-title_caps slds-m-bottom_small">
-                                        <strong>Q{question.Position__c}</strong>
-                                    </h4>
-                            <!-- /Question # -->
-                            <!-- Question -->
-                                    <h2 key={question.Id} class="slds-text-heading_medium slds-m-bottom_medium">
-                                        {question.Name}
-                                    </h2>
-                                    
-                            <!-- /Question -->
-
-
-                            <!-- Response -->
-
+                                    <li key={question.Id} class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                        <h4 key={question.Id} class="slds-text-title_caps slds-m-bottom_small">
+                                            <strong>Q{question.Position__c}</strong>
+                                        </h4>
+                                        <!-- /Question # -->
+                                        <!-- Question -->
+                                        <h2 key={question.Id} class="slds-text-heading_medium slds-m-bottom_medium">
+                                            {question.Name}
+                                        </h2>
+                                        <!-- /Question -->
+                                        <!-- Response -->
                                         <template for:each={question.Answers__r} for:item="answer">
                                             <div key={answer.Id} class="slds-text-heading_small slds-m-left_medium">
                                                 <div class="col">
@@ -47,17 +44,10 @@
                                                 </div>
                                             </div>
                                         </template>
-                                    
-                            <!-- /Response -->
+                                    </li>
                                 </template>
-                            </template>
-                            
-
-                            <template if:true={questions.error}>
-                                
-                            </template>
-                            
-                        </li>
+                            </template>    
+                            <!-- /Response -->
                     </ul>
                 </div>
                 <div class="slds-text-align_right slds-m-vertical_large">

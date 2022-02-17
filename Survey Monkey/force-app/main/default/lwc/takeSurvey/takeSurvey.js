@@ -3,13 +3,20 @@ import { CurrentPageReference } from 'lightning/navigation';
 import logo from '@salesforce/resourceUrl/surveyMonkey_logo';
 import getQuestionList from '@salesforce/apex/getQuestions.getQuestionList';
 import getTemplateList from '@salesforce/apex/getTemplate.getTemplateList';
-import { getRecord } from 'lightning/uiRecordApi';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import NAME_FIELD from '@salesforce/schema/Template__c.Name';
+
+const FIELDS = [
+    NAME_FIELD,
+];
 
 export default class TakeSurvey extends LightningElement {
     surveyMonkeyLogo = logo;
     //Get template param
-    @api recordId;
+    //@api recordId;
     @track recordId;
+    //@track template;
+    //@track questions;
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         if (currentPageReference) {
@@ -22,7 +29,13 @@ export default class TakeSurvey extends LightningElement {
         }
     }
 
-    @wire(getTemplateList, { Id: '$recordId' })
+    @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     template;
-    
+
+    get name() {
+        return getFieldValue(this.template.data, NAME_FIELD);
+    }
+
+
+
 }

@@ -2,9 +2,8 @@ import { LightningElement, wire, track, api } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import logo from '@salesforce/resourceUrl/surveyMonkey_logo';
 import getQuestionList from '@salesforce/apex/getQuestions.getQuestionList';
-import getAnswerList from '@salesforce/apex/getAnswers.getAnswerList';
-import getAnsList from '@salesforce/apex/getAns.getAnsList';
-import getTemplateList from '@salesforce/apex/getTemplate.getTemplateList';
+import createUserSurvey from '@salesforce/apex/createSurvey.createUserSurvey';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/Template__c.Name';
 
@@ -14,11 +13,9 @@ const FIELDS = [
 
 export default class TakeSurvey extends LightningElement {
     surveyMonkeyLogo = logo;
-    //Get template param
-    //@api recordId;
+
+    //Get template ID from URL param
     @track recordId;
-    //@track template;
-    //@track questions;
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
         if (currentPageReference) {
@@ -31,6 +28,7 @@ export default class TakeSurvey extends LightningElement {
         }
     }
 
+    //Get template Name
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
     template;
 
@@ -38,15 +36,54 @@ export default class TakeSurvey extends LightningElement {
         return getFieldValue(this.template.data, NAME_FIELD);
     }
 
-    questionID;
-
+    //Get questions and respective answers
     @wire(getQuestionList, { Id: '$recordId' })
     questions;
 
-    //Make a method that is called by answer with parameter of Question ID
-    //
-    //@wire(getAnswerList, { Id: '$questionID' })
-    //answers;
+    //Checkbox storage
+    @track index;
+    @track Values;
+    @track SelectedValues = [];
+    handleCheckBoxChange(event) {
+        this.Values =  event.target.value;
+        if (event.target.checked) {
+            this.SelectedValues.push( this.Values );
+        } else {
+            try {
+                this.index = this.SelectedValues.indexOf( this.Values );
+                this.SelectedValues.splice(this.index, 1);
+            } catch (err) {
+                console.log(error);
+            }
+        }
+     }
 
-
+     //Handle submission on button click
+     handleOnClick(event) {
+        createUserSurvey({recordId: this.recordId, answers: this.SelectedValues}).then(result => {
+            const event = new ShowToastEvent({
+                title: 'Survey Submitted',
+                message: 'You can now view it in the "Personal Surveys" tab.',
+                variant: 'success'
+            });
+            this.dispatchEvent(event);
+            })
+            .catch(error => {
+                const event = new ShowToastEvent({
+                    title : 'Error',
+                    message : 'Error submitting survey...',
+                    variant : 'error'
+                });
+                console.log(error);
+                this.dispatchEvent(event);
+            });
+        }
 }
+
+//TODO or ?s
+
+//Q# Size and formatting
+//$recordId thing --> fixed
+//How to view other peoples surveys
+//Getting user answers --> fixed, needs optimization
+//Page redirect to personal surveys page after survey submit

@@ -33,14 +33,15 @@
 
 
                             <!-- Response -->
-                                    
+
                                         <template for:each={question.Answers__r} for:item="answer">
                                             <div key={answer.Id} class="slds-text-heading_small slds-m-left_medium">
                                                 <div class="col">
                                                     <lightning-input    
-                                                        id={answer.ID}
+                                                        value={answer.Id}
                                                         type="checkbox"
-                                                        label={answer.Name}>
+                                                        label={answer.Name}
+                                                        onchange={handleCheckBoxChange}>
                                                     </lightning-input>
                                                 </div>
                                             </div>
@@ -54,11 +55,12 @@
                             <template if:true={questions.error}>
                                 
                             </template>
+                            
                         </li>
                     </ul>
                 </div>
                 <div class="slds-text-align_right slds-m-vertical_large">
-                    <lightning-button variant="brand" label="Submit"></lightning-button>
+                    <lightning-button variant="brand" label="Submit" onclick={handleOnClick}></lightning-button>
                 </div>
             </div>
         </div>

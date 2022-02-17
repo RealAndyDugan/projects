@@ -2,6 +2,8 @@ import { LightningElement, wire, track, api } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import logo from '@salesforce/resourceUrl/surveyMonkey_logo';
 import getQuestionList from '@salesforce/apex/getQuestions.getQuestionList';
+import getAnswerList from '@salesforce/apex/getAnswers.getAnswerList';
+import getAnsList from '@salesforce/apex/getAns.getAnsList';
 import getTemplateList from '@salesforce/apex/getTemplate.getTemplateList';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import NAME_FIELD from '@salesforce/schema/Template__c.Name';
@@ -36,6 +38,13 @@ export default class TakeSurvey extends LightningElement {
         return getFieldValue(this.template.data, NAME_FIELD);
     }
 
+    @wire(getQuestionList, { Id: '$recordId' })
+    questions;
+
+    //Make a method that is called by answer with parameter of Question ID
+    //
+    @wire(getAnswerList, { Id: '$recordId' })
+    answers;
 
 
 }

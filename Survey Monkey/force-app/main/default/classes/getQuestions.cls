@@ -1,11 +1,11 @@
 public with sharing class getQuestions {
     @AuraEnabled(cacheable=true)
-    public static List<Question__c> getQuestionList(String id) {
+    public static List<Question__c> getQuestionList(ID Id) {
         return [
-            SELECT ID, Name
+            SELECT ID, Name, Position__c
             FROM Question__c
-            WHERE Template__r.ID = :id
-            WITH SECURITY_ENFORCED
+            WHERE Template__r.ID = :Id
+            ORDER BY Position__c
         ];
     }
 }

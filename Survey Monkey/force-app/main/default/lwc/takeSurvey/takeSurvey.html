@@ -33,9 +33,9 @@
 
 
                             <!-- Response -->
-                                    <template if:true={answers.data}>
-                                        <template for:each={answers.data} for:item="answer">
-                                            <div key={answer.Question__c.ID} class="slds-text-heading_small slds-m-left_medium">
+                                    
+                                        <template for:each={question.Answers__r} for:item="answer">
+                                            <div key={answer.Id} class="slds-text-heading_small slds-m-left_medium">
                                                 <div class="col">
                                                     <lightning-input    
                                                         id={answer.ID}
@@ -45,7 +45,7 @@
                                                 </div>
                                             </div>
                                         </template>
-                                    </template>
+                                    
                             <!-- /Response -->
                                 </template>
                             </template>

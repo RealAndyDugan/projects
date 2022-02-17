@@ -4,7 +4,7 @@ public with sharing class getAnswers {
         return [
             SELECT ID, Name, Position__c, Question__c
             FROM Answer__c
-            WHERE Question__r.Template__r.ID = :Id
+            WHERE Question__r.ID = :Id
             ORDER BY Position__c
         ];
     }

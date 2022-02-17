@@ -38,13 +38,15 @@ export default class TakeSurvey extends LightningElement {
         return getFieldValue(this.template.data, NAME_FIELD);
     }
 
+    questionID;
+
     @wire(getQuestionList, { Id: '$recordId' })
     questions;
 
     //Make a method that is called by answer with parameter of Question ID
     //
-    @wire(getAnswerList, { Id: '$recordId' })
-    answers;
+    //@wire(getAnswerList, { Id: '$questionID' })
+    //answers;
 
 
 }

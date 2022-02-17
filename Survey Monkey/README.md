@@ -17,3 +17,20 @@
                                     </lightning-input>
                                 </div>
                             </div>
+
+
+
+
+                                                                <template if:true={answers.data}>
+                                        <template for:each={answers.data} for:item="answer">
+                                            <div key={answer.Question__c.ID} class="slds-text-heading_small slds-m-left_medium">
+                                                <div class="col">
+                                                    <lightning-input    
+                                                        id={answer.ID}
+                                                        type="checkbox"
+                                                        label={answer.Name}>
+                                                    </lightning-input>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>

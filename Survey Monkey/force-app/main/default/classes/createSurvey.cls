@@ -2,11 +2,11 @@ public with sharing class createSurvey {
     @AuraEnabled
     public static User_Survey__c createUserSurvey(ID recordId, List<ID> answers) {
         
-        List<Template__c> cheese = [SELECT Name FROM Template__c WHERE ID = :recordId LIMIT 1];
+        List<Template__c> templates = [SELECT Name FROM Template__c WHERE ID = :recordId LIMIT 1];
         
         User_Survey__c newSurvey = new User_Survey__c (
-            Name = cheese.get(0).Name, 
-            Template__c = cheese.get(0).ID
+            Name = templates.get(0).Name, 
+            Template__c = templates.get(0).ID
         );
 
         insert newSurvey;

@@ -1,21 +1,23 @@
-public with sharing class getSurveys {
+public with sharing class getAllSurveys {
     
     List<User_Survey__c> surveys;
     
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, Object>> getSurveyList(ID Id) {
-        //List of survey objects
+    public static List<Map<String, Object>> getAllSurveysList(ID recordId) {
+        //List of survey objects (empty)
         List<Map<String, Object>> surveys = new List<Map<String, Object>>();
-        //List of surveys from DB, unformatted and without any questions or answers
-        List<User_Survey__c> dbSurveys = [SELECT ID, Name, CreatedDate FROM User_Survey__c WHERE CreatedById = :Id ORDER BY CreatedDate DESC];
-        //List of questions from DB
-        List<User_Answer__c> dbQuestions = [SELECT ID, questionSnap__c, User_Survey__c, questionPos__c FROM User_Answer__c WHERE CreatedById = :Id ORDER BY questionPos__c];
-        //List of answers from DB
-        List<User_Answer__c> dbAnswers = [SELECT ID, answerSnap__c, questionSnap__c, User_Survey__c FROM User_Answer__c WHERE CreatedById = :Id ORDER BY answerPos__c];
+        //List of surveys from DB, unformatted and without any questions or answers - for a specified template
+        List<User_Survey__c> dbSurveys = [SELECT ID, Name, CreatedDate, CreatedById FROM User_Survey__c WHERE Template__r.ID = :recordId ORDER BY CreatedDate DESC];
+        //List of questions from DB for specified template
+        List<User_Answer__c> dbQuestions = [SELECT ID, questionSnap__c, User_Survey__c, questionPos__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY questionPos__c];
+        //List of answers from DB for specified template
+        List<User_Answer__c> dbAnswers = [SELECT ID, answerSnap__c, questionSnap__c, User_Survey__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY answerPos__c];
+
 
         for(User_Survey__c survey : dbSurveys) {
             Map<String, Object> surv = new Map<String, Object>();
             surv.put('Id', survey.Id);
+            surv.put('user', getName(survey.CreatedById));
             surv.put('name', survey.Name);
             surv.put('date', formatDate(survey.CreatedDate));
             List<Map<String, Object>> questions = new List<Map<String, Object>>();
@@ -51,8 +53,21 @@ public with sharing class getSurveys {
         String month = formatted.substring(5,7);
         String day = formatted.substring(8,10);
         String year = formatted.substring(0,4);
-        String result = month + '-' + day + '-' + year;
+        String result = month + '/' + day + '/' + year;
         return result;
+    }
+
+    public static String getName(ID Id) {
+        //List of all users
+        List<User> users = [SELECT ID, Name FROM User];
+
+        String name = '';
+        for(User user : users) {
+            if(user.ID == Id) {
+                name = user.Name;
+            }
+        }
+        return name;
     }
     
 }

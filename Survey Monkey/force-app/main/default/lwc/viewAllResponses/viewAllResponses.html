@@ -1,118 +1,56 @@
 <template>
-    <div class="slds-scope sm-card slds-card">
+    <div class="slds-scope slds-card">
         <div class="slds-card__header slds-grid slds-m-bottom_large">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__figure">
-                    <img src={surveyMonkeyLogo} style="height:30px;" />
+                    <img src={surveyMonkeyLogo} style="height:30px;">
                 </div>
             </header>
         </div>
         <div class="slds-card__body slds-card__body_inner">
             <div class="slds-p-horizontal_small">
-                <div class="slds-section slds-is-open">
-                    <h3 class="slds-section__title">
-                        <button aria-controls="expando-unique-id" aria-expanded="true" class="slds-button slds-section__title-action" onclick={customerSurveyButtonClick}>
-                            <lightning-icon icon-name={customerSurveyIconName} size="x-small" class="slds-m-right_small"></lightning-icon>
-                            <span class="slds-truncate">Marc Benioff • 01/06/2099</span>
-                        </button>
-                    </h3>
-                    <div aria-hidden="false" class={customerSurveyClassList} id="expando-unique-id">
-                        <div class="slds-m-vertical_medium slds-m-horizontal_large">
-                            <div class="slds-text-heading_medium slds-p-bottom_medium slds-border_bottom slds-p-horizontal_large">
-                                Customer Satisfaction Survey
+                <template if:true={surveys.data}>                
+                    <template for:each={surveys.data} for:item="survey" for:index="index">
+                        <div key={survey.Id} class="slds-section slds-is-open">
+                            <h3 class="slds-section__title">
+                                <button aria-controls="expando-unique-id" aria-expanded class="slds-button slds-section__title-action" onclick={customerSurveyButtonClick} data-index={index} data-survey={survey}>
+                                    <lightning-icon icon-name={customerSurveyIconName} alternative-text="View Results" size="x-small" class="slds-m-right_small" id={survey.Id} data-index={index} data-button={survey.Id}></lightning-icon>
+                                    <span class="slds-truncate">{survey.user} • {survey.date}</span>
+                                </button>
+                            </h3>
+                            <div aria-hidden="false" class={customerSurveyClassList} id={survey.Id} data-survey-id={survey.Id}>
+                                <div class="slds-m-vertical_medium slds-m-horizontal_large">
+                                    <div class="slds-text-heading_medium slds-p-bottom_medium slds-border_bottom slds-p-horizontal_large">
+                                        {survey.name}
+                                    </div>
+                                </div>
+                                <div class="sm-container_responses slds-p-horizontal_small slds-scrollable_y">
+                                    <ul class="sm-question-list">
+                                        <template for:each={survey.questions} for:item="question">
+                                        <li key={question.name} class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
+                                            <!-- Question # -->
+                                            <h4 class="slds-text-title_caps slds-m-bottom_small">
+                                                <strong>Q{question.position}</strong>
+                                            </h4>
+                                            <!-- /Question # -->
+                                            <!-- Question -->
+                                            <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                                                {question.name} 
+                                            </h2>
+                                            <!-- /Question -->
+                                            <!-- Response -->
+                                            <h4 class="slds-text-heading_small slds-m-left_medium">
+                                                {question.answers}
+                                            </h4>
+                                            <!-- /Response -->
+                                        </li>
+                                        </template>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="sm-container_responses slds-p-horizontal_small slds-scrollable_y">
-                            <ul class="sm-question-list">
-                                <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
-                                    <!-- Question # -->
-                                    <h4 class="slds-text-title_caps slds-m-bottom_small">
-                                        <strong>Q1</strong>
-                                    </h4>
-                                    <!-- /Question # -->
-                                    <!-- Question -->
-                                    <h2 class="slds-text-heading_medium slds-m-bottom_medium">
-                                        What best describes your occupation? 
-                                    </h2>
-                                    <!-- /Question -->
-                                    <!-- Response -->
-                                    <h4 class="slds-text-heading_small slds-m-left_medium">
-                                        Web Developer
-                                    </h4>
-                                    <!-- /Response -->
-                                </li>
-                                <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
-                                    <!-- Question # -->
-                                    <h4 class="slds-text-title_caps slds-m-bottom_small">
-                                        <strong>Q2</strong>
-                                    </h4>
-                                    <!-- /Question # -->
-                                    <!-- Question -->
-                                    <h2 class="slds-text-heading_medium slds-m-bottom_medium">
-                                        In what city do you work?  
-                                    </h2>
-                                    <!-- /Question -->
-                                    <!-- Response -->
-                                    <h4 class="slds-text-heading_small slds-m-left_medium">
-                                        Chicago
-                                    </h4>
-                                    <!-- /Response -->
-                                </li>
-                                <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
-                                    <!-- Question # -->
-                                    <h4 class="slds-text-title_caps slds-m-bottom_small">
-                                        <strong>Q3</strong>
-                                    </h4>
-                                    <!-- /Question # -->
-                                    <!-- Question -->
-                                    <h2 class="slds-text-heading_medium slds-m-bottom_medium">
-                                        What month did you start? 
-                                    </h2>
-                                    <!-- /Question -->
-                                    <!-- Response -->
-                                    <h4 class="slds-text-heading_small slds-m-left_medium">
-                                        September
-                                    </h4>
-                                    <!-- /Response -->
-                                </li>
-                                <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
-                                    <!-- Question # -->
-                                    <h4 class="slds-text-title_caps slds-m-bottom_small">
-                                        <strong>Q4</strong>
-                                    </h4>
-                                    <!-- /Question # -->
-                                    <!-- Question -->
-                                    <h2 class="slds-text-heading_medium slds-m-bottom_medium">
-                                        Select all software you have experience using professionally.
-                                    </h2>
-                                    <!-- /Question -->
-                                    <!-- Response -->
-                                    <h4 class="slds-text-heading_small slds-m-left_medium">
-                                        Photoshop, Illustrator, InDesign, VS Code
-                                    </h4>
-                                    <!-- /Response -->
-                                </li>
-                                <li class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
-                                    <!-- Question # -->
-                                    <h4 class="slds-text-title_caps slds-m-bottom_small">
-                                        <strong>Q5</strong>
-                                    </h4>
-                                    <!-- /Question # -->
-                                    <!-- Question -->
-                                    <h2 class="slds-text-heading_medium slds-m-bottom_medium">
-                                        How many hours a week do you use the product? 
-                                    </h2>
-                                    <!-- /Question -->
-                                    <!-- Response -->
-                                    <h4 class="slds-text-heading_small slds-m-left_medium">
-                                        6-10
-                                    </h4>
-                                    <!-- /Response -->
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                    </template>
+                </template>
             </div>
         </div>
     </div>

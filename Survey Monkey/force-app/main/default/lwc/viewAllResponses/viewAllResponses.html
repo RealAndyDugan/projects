@@ -9,7 +9,7 @@
         </div>
         <div class="slds-card__body slds-card__body_inner">
             <div class="slds-p-horizontal_small">
-                <template if:true={surveys.data}>                
+                <template if:true={surveys.data}>
                     <template for:each={surveys.data} for:item="survey" for:index="index">
                         <div key={survey.Id} class="slds-section slds-is-open">
                             <h3 class="slds-section__title">

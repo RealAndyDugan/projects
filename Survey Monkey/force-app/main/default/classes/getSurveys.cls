@@ -51,7 +51,7 @@ public with sharing class getSurveys {
         String month = formatted.substring(5,7);
         String day = formatted.substring(8,10);
         String year = formatted.substring(0,4);
-        String result = month + '-' + day + '-' + year;
+        String result = month + '/' + day + '/' + year;
         return result;
     }
     

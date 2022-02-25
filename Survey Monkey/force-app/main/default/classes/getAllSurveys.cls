@@ -12,12 +12,13 @@ public with sharing class getAllSurveys {
         List<User_Answer__c> dbQuestions = [SELECT ID, QuestionName__c, User_Survey__c, QuestionPosition__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY QuestionPosition__c];
         //List of answers from DB for specified template
         List<User_Answer__c> dbAnswers = [SELECT ID, AnswerName__c, QuestionName__c, User_Survey__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY AnswerPosition__c];
-
+        //List of all users
+        List<User> users = [SELECT ID, Name FROM User];
 
         for(User_Survey__c survey : dbSurveys) {
             Map<String, Object> surv = new Map<String, Object>();
             surv.put('Id', survey.Id);
-            surv.put('user', getName(survey.CreatedById));
+            surv.put('user', getName(survey.CreatedById, users));
             surv.put('name', survey.Name);
             surv.put('date', formatDate(survey.CreatedDate));
             List<Map<String, Object>> questions = new List<Map<String, Object>>();
@@ -57,10 +58,7 @@ public with sharing class getAllSurveys {
         return result;
     }
 
-    public static String getName(ID Id) {
-        //List of all users
-        List<User> users = [SELECT ID, Name FROM User];
-
+    public static String getName(ID Id, List<User> users) {
         String name = '';
         for(User user : users) {
             if(user.ID == Id) {

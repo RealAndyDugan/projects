@@ -81,14 +81,24 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
                 this.dispatchEvent(event);
             });
 
+            //Checkbox reset (not working????)
+            //let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
+            //if(checkboxes.size() > 0) {
+            //    checkboxes.forEach(element=> {
+            //        element.reset();
+            //    });
+            //}
+
             //Change Page
             this[NavigationMixin.Navigate]({
                 type: 'standard__recordPage',
                 attributes: {
                     recordId: this.recordId,
-                    objectApiName: 'Template__c', // objectApiName is optional
+                    objectApiName: 'Template__c',
                     actionName: 'view'
                 }
             });
+
+
     }
 }

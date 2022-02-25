@@ -101,10 +101,5 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
                 console.log(error);
                 this.dispatchEvent(event);
             });
-
-
-
-
-
     }
 }

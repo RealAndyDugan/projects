@@ -33,10 +33,10 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
 
     //Get template Name
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
-    template;
+    templates;
 
     get name() {
-        return getFieldValue(this.template.data, NAME_FIELD);
+        return getFieldValue(this.templates.data, NAME_FIELD);
     }
 
     //Get questions and respective answers
@@ -63,32 +63,24 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
 
      //Handle submission on button click
      handleOnClick(event) {
+         let self = this;
         createUserSurvey({recordId: this.recordId, answers: this.SelectedValues, userId: this.userId}).then(result => {
+            
+            //Checkbox reset
+            let checkboxes = self.template.querySelectorAll('[data-id="checkbox"]');
+            if(checkboxes.length > 0) {
+                checkboxes.forEach(element=> {
+                    element.checked = false;
+                });
+            }
+
+            //Toast
             const event = new ShowToastEvent({
                 title: 'Survey Submitted',
                 message: 'You can now view it in the "Personal Surveys" tab.',
                 variant: 'success'
             });
             this.dispatchEvent(event);
-            })
-            .catch(error => {
-                const event = new ShowToastEvent({
-                    title : 'Error',
-                    message : 'Error submitting survey...',
-                    variant : 'error'
-                });
-                console.log(error);
-                this.dispatchEvent(event);
-            });
-
-            //Checkbox reset (not working????)
-            //let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
-            //if(checkboxes.size() > 0) {
-            //    checkboxes.forEach(element=> {
-            //        element.reset();
-            //    });
-            //}
-
             //Change Page
             this[NavigationMixin.Navigate]({
                 type: 'standard__recordPage',
@@ -98,6 +90,20 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
                     actionName: 'view'
                 }
             });
+
+            }).catch(error => {
+                //Error toast
+                const event = new ShowToastEvent({
+                    title : 'Error',
+                    message : error.message ? error.message : error,
+                    variant : 'error'
+                });
+                console.log(error);
+                this.dispatchEvent(event);
+            });
+
+
+
 
 
     }

@@ -10,4 +10,4 @@ package.xml
 **appMenus
 
 **profiles
-!**profiles/Admin*
+#!**profiles/Admin*

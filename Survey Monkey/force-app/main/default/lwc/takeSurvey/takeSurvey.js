@@ -7,6 +7,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { NavigationMixin } from 'lightning/navigation';
 import NAME_FIELD from '@salesforce/schema/Template__c.Name';
+import Id from '@salesforce/user/Id';
 
 const FIELDS = [
     NAME_FIELD,
@@ -14,6 +15,7 @@ const FIELDS = [
 
 export default class TakeSurvey extends NavigationMixin(LightningElement) {
     surveyMonkeyLogo = logo;
+    userId = Id;
 
     //Get template ID from URL param
     @track recordId;
@@ -61,7 +63,7 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
 
      //Handle submission on button click
      handleOnClick(event) {
-        createUserSurvey({recordId: this.recordId, answers: this.SelectedValues}).then(result => {
+        createUserSurvey({recordId: this.recordId, answers: this.SelectedValues, userId: this.userId}).then(result => {
             const event = new ShowToastEvent({
                 title: 'Survey Submitted',
                 message: 'You can now view it in the "Personal Surveys" tab.',

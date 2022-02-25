@@ -9,9 +9,9 @@ public with sharing class getAllSurveys {
         //List of surveys from DB, unformatted and without any questions or answers - for a specified template
         List<User_Survey__c> dbSurveys = [SELECT ID, Name, CreatedDate, CreatedById FROM User_Survey__c WHERE Template__r.ID = :recordId ORDER BY CreatedDate DESC];
         //List of questions from DB for specified template
-        List<User_Answer__c> dbQuestions = [SELECT ID, questionSnap__c, User_Survey__c, questionPos__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY questionPos__c];
+        List<User_Answer__c> dbQuestions = [SELECT ID, QuestionName__c, User_Survey__c, QuestionPosition__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY QuestionPosition__c];
         //List of answers from DB for specified template
-        List<User_Answer__c> dbAnswers = [SELECT ID, answerSnap__c, questionSnap__c, User_Survey__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY answerPos__c];
+        List<User_Answer__c> dbAnswers = [SELECT ID, AnswerName__c, QuestionName__c, User_Survey__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY AnswerPosition__c];
 
 
         for(User_Survey__c survey : dbSurveys) {
@@ -25,14 +25,14 @@ public with sharing class getAllSurveys {
             for(User_Answer__c q : dbQuestions) {
                 Map<String, Object> question = new Map<String, Object>();
                 
-                if(iterated.contains(q.questionSnap__c) == false && q.User_Survey__c == survey.ID) {
-                    iterated.add(q.questionSnap__c);
-                    question.put('name', q.questionSnap__c);
-                    question.put('position', q.questionPos__c);
+                if(iterated.contains(q.QuestionName__c) == false && q.User_Survey__c == survey.ID) {
+                    iterated.add(q.QuestionName__c);
+                    question.put('name', q.QuestionName__c);
+                    question.put('position', q.QuestionPosition__c);
                     List<String> allAnswers = new List<String>();
                     for(User_Answer__c a : dbAnswers) {
-                        if(a.questionSnap__c == q.questionSnap__c && a.User_Survey__c == survey.ID) {
-                            allAnswers.add(a.answerSnap__c);
+                        if(a.QuestionName__c == q.QuestionName__c && a.User_Survey__c == survey.ID) {
+                            allAnswers.add(a.AnswerName__c);
                         }
                     }
                     String finalAnswers = String.join(allAnswers,', ');

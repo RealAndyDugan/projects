@@ -8,7 +8,7 @@ public with sharing class createSurvey {
 
         User_Survey__c newSurvey = new User_Survey__c (
             Name = template.Name, 
-            User__c = userId,
+            User__c = userinfo.getUserId(),
             Template__c = template.ID
         );
 
@@ -35,7 +35,7 @@ public with sharing class createSurvey {
                         AnswerPosition__c = dbAns.Position__c,
                         AnswerName__c = dbAns.Name
                     );
-            
+
                     insert newAnswer;
                 }
             }

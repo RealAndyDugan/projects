@@ -91,15 +91,15 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
                 }
             });
 
-            }).catch(error => {
-                //Error toast
-                const event = new ShowToastEvent({
-                    title : 'Error',
-                    message : error.message ? error.message : error,
-                    variant : 'error'
-                });
-                console.log(error);
-                this.dispatchEvent(event);
+        }).catch(error => {
+            //Error toast
+            const event = new ShowToastEvent({
+                title : 'Error',
+                message : error.message ? error.message : error,
+                variant : 'error'
             });
+            console.log(error);
+            this.dispatchEvent(event);
+        });
     }
 }

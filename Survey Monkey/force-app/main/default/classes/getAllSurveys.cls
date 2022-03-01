@@ -14,6 +14,8 @@ public with sharing class getAllSurveys {
         List<User_Answer__c> dbAnswers = [SELECT ID, AnswerName__c, QuestionName__c, User_Survey__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY AnswerPosition__c];
         //List of all users
         List<User> users = [SELECT ID, Name FROM User];
+        //List of questions
+        List<Question__c> allQuestions = [SELECT ID, Name, Template__c FROM Question__c WHERE Template__r.ID = :recordId];
 
         for(User_Survey__c survey : dbSurveys) {
             Map<String, Object> surv = new Map<String, Object>();
@@ -23,6 +25,7 @@ public with sharing class getAllSurveys {
             surv.put('date', formatDate(survey.CreatedDate));
             List<Map<String, Object>> questions = new List<Map<String, Object>>();
             List<String> iterated = new List<String>();
+                
             for(User_Answer__c q : dbQuestions) {
                 Map<String, Object> question = new Map<String, Object>();
                 
@@ -41,8 +44,8 @@ public with sharing class getAllSurveys {
                     questions.add(question);
                     surv.put('questions', questions);
                 }
-                
             }
+            
             surveys.add(surv);
         }
         return surveys;

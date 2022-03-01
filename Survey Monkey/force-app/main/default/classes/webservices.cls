@@ -6,11 +6,48 @@ global with sharing class webservices {
         RestRequest req = RestContext.request;
 
         try { 
-            String recordId = req.requestURI.substring(req.requestURI.lastIndexOf('/') + 1);
-            // write your GET code here
+            //String recordId = req.requestURI.substring(req.requestURI.lastIndexOf('/') + 1);
+            req.requestURI = '/templates/';
             
-            res.statusCode = 200;  
-            res.responseBody = Blob.valueof(JSON.serialize('SUCCESS'));
+            //Handling Data
+            List<Template__c> allTemplates = [SELECT ID, Name FROM Template__c];
+            List<Question__c> allQuestions = [SELECT ID, Name, Position__c, Template__c FROM Question__c];
+            List<Answer__c> allAnswers = [SELECT ID, Name, Position__c, Question__c FROM Answer__c];
+            //Get templates
+            List<Map<String, Object>> templates = new List<Map<String, Object>>();
+            for(Template__c template : allTemplates) {
+                Map<String, Object> temp = new Map<String, Object>();
+                temp.put('id', template.ID);
+                temp.put('name', template.Name);
+                //Get questions
+                List<Map<String, Object>> questions = new List<Map<String, Object>>();
+                for(Question__c question : allQuestions) {
+                    if(question.Template__c == template.ID) {
+                        Map<String, Object> ques = new Map<String, Object>();
+                        ques.put('id', question.ID);
+                        ques.put('question', question.Name);
+                        ques.put('position', question.Position__c);
+                        //Get answers
+                        List<Map<String, Object>> answers = new List<Map<String, Object>>();
+                        for(Answer__c answer : allAnswers) {
+                            if(answer.Question__c == question.ID) {
+                                Map<String, Object> ans = new Map<String, Object>();
+                                ans.put('id', answer.ID);
+                                ans.put('answer', answer.Name);
+                                ans.put('position', answer.Position__c);
+                                answers.add(ans);
+                            }
+                        }
+                        ques.put('answers', answers);
+                        questions.add(ques);
+                    }
+                }
+                temp.put('questions', questions);
+                templates.add(temp);
+            }
+            //Done with handling data
+            res.responseBody = Blob.valueof(JSON.serialize(templates));
+            res.statusCode = 201;
 
         } catch(Exception e) {                
             res.statusCode = 500;
@@ -24,10 +61,43 @@ global with sharing class webservices {
         RestResponse res = RestContext.response;
 
         try { 
-            // write your POST code here
+            //Get template ID
+            req.requestURI = '/surveys/';
+            ID recordId = req.params.get('id');
+            //Handle incoming JSON Object list
+            Object params = (Object) JSON.deserializeUntyped(req.requestBody.toString());
+            Map<String, Object> mapParams = (Map<String, Object>) params;
+            List<Object> questionObjects = (List<Object>) mapParams.get('questions');
+            List<Map<String, Object>> questions = new List<Map<String, Object>>();
+            List<ID> answers = new List<ID>();
+            List<Object> answerIDs = new List<Object>();
+            //List<Map<String, Object>> answers = new List<Map<String, Object>>();
+            String username = (String) mapParams.get('username');
+            User user = [SELECT ID FROM User WHERE Username = :username LIMIT 1];
+            ID userId = User.ID;
+            for(Object question : questionObjects) {
+                //Map<String, Object> ques = (Map<String, Object>) question;
+                //questions.add(ques);
+                Map<String, Object> questionMap = (Map<String, Object>) question;
+                List<Object> answerObjects = (List<Object>) questionMap.get('answers');
+                for(Object answer : answerObjects) {
+                    Map<String, Object> answerMap = (Map<String, Object>) answer;
+                    answerIDs.add(answerMap.get('answer'));
+                }
+            }
 
-            res.statusCode = 200;
-            res.responseBody = Blob.valueof(JSON.serialize('SUCCESS'));
+            for(Object answerID : answerIDs) {
+                ID id = (ID) answerID;
+                answers.add(id);
+            }
+            
+
+
+
+            createSurvey.createUserSurvey(recordId, answers, userId);
+
+            res.statusCode = 201;
+            res.responseBody = Blob.valueof(JSON.serialize(answers));
 
         } catch(Exception e) { 
             res.statusCode = 500;

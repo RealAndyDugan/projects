@@ -68,40 +68,40 @@ global with sharing class webservices {
             Object params = (Object) JSON.deserializeUntyped(req.requestBody.toString());
             Map<String, Object> mapParams = (Map<String, Object>) params;
             List<Object> questionObjects = (List<Object>) mapParams.get('questions');
-            List<Map<String, Object>> questions = new List<Map<String, Object>>();
+            //Storage lists
             List<ID> answers = new List<ID>();
             List<Object> answerIDs = new List<Object>();
-            //List<Map<String, Object>> answers = new List<Map<String, Object>>();
+            //Get username
             String username = (String) mapParams.get('username');
+            //Add error handling for unrecognized user
             User user = [SELECT ID FROM User WHERE Username = :username LIMIT 1];
             ID userId = User.ID;
+            //Iterate questions for answers
             for(Object question : questionObjects) {
-                //Map<String, Object> ques = (Map<String, Object>) question;
-                //questions.add(ques);
                 Map<String, Object> questionMap = (Map<String, Object>) question;
                 List<Object> answerObjects = (List<Object>) questionMap.get('answers');
+                //Add answers to answer list
                 for(Object answer : answerObjects) {
                     Map<String, Object> answerMap = (Map<String, Object>) answer;
                     answerIDs.add(answerMap.get('answer'));
                 }
             }
-
+            //Convert answer list to ID list
             for(Object answerID : answerIDs) {
                 ID id = (ID) answerID;
                 answers.add(id);
             }
-            
-
-
-
+            //Store new survey data
             createSurvey.createUserSurvey(recordId, answers, userId);
 
             res.statusCode = 201;
-            res.responseBody = Blob.valueof(JSON.serialize(answers));
+            res.responseBody = Blob.valueof(JSON.serialize('Survey Saved Successful'));
 
         } catch(Exception e) { 
             res.statusCode = 500;
             res.responseBody = Blob.valueof('ERROR: ' + e.getStackTraceString());
         }
+
+        
     }
 }

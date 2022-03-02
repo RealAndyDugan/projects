@@ -11,7 +11,7 @@ public with sharing class getAllSurveys {
         //List of questions from DB for specified template
         List<User_Answer__c> dbQuestions = [SELECT ID, QuestionName__c, User_Survey__c, QuestionPosition__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY QuestionPosition__c];
         //List of answers from DB for specified template
-        List<User_Answer__c> dbAnswers = [SELECT ID, AnswerName__c, QuestionName__c, User_Survey__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY AnswerPosition__c];
+        List<User_Answer__c> dbAnswers = [SELECT ID, AnswerName__c, QuestionName__c, User_Survey__c, Checked__c FROM User_Answer__c WHERE User_Survey__r.Template__r.ID = :recordId ORDER BY AnswerPosition__c];
         //List of all users
         List<User> users = [SELECT ID, Name FROM User];
         //List of questions
@@ -35,12 +35,16 @@ public with sharing class getAllSurveys {
                     question.put('position', q.QuestionPosition__c);
                     List<String> allAnswers = new List<String>();
                     for(User_Answer__c a : dbAnswers) {
-                        if(a.QuestionName__c == q.QuestionName__c && a.User_Survey__c == survey.ID) {
+                        if(a.QuestionName__c == q.QuestionName__c && a.User_Survey__c == survey.ID && a.Checked__c == true) {
                             allAnswers.add(a.AnswerName__c);
                         }
                     }
-                    String finalAnswers = String.join(allAnswers,', ');
-                    question.put('answers', finalAnswers);
+                    if(allAnswers.size() > 0) {
+                        question.put('answers', String.join(allAnswers,', '));
+                    }
+                    else {
+                        question.put('answers', 'N/A');
+                    }
                     questions.add(question);
                     surv.put('questions', questions);
                 }

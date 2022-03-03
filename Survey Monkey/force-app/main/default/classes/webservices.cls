@@ -47,7 +47,7 @@ global with sharing class webservices {
             }
             //Done with handling data
             res.responseBody = Blob.valueof(JSON.serialize(templates));
-            res.statusCode = 201;
+            res.statusCode = 200;
 
         } catch(Exception e) {                
             res.statusCode = 500;
@@ -73,35 +73,39 @@ global with sharing class webservices {
             List<Object> answerIDs = new List<Object>();
             //Get username
             String username = (String) mapParams.get('username');
-            //Add error handling for unrecognized user
-            User user = [SELECT ID FROM User WHERE Username = :username LIMIT 1];
-            ID userId = User.ID;
-            //Iterate questions for answers
-            for(Object question : questionObjects) {
-                Map<String, Object> questionMap = (Map<String, Object>) question;
-                List<Object> answerObjects = (List<Object>) questionMap.get('answers');
-                //Add answers to answer list
-                for(Object answer : answerObjects) {
-                    Map<String, Object> answerMap = (Map<String, Object>) answer;
-                    answerIDs.add(answerMap.get('answer'));
+            //User doesnt exist handling
+            ID userId;
+            List<User> users = [SELECT ID, Username FROM User];
+            for(User user : users) {
+                if(user.Username == username) {
+                    userId = user.ID;
                 }
             }
-            //Convert answer list to ID list
-            for(Object answerID : answerIDs) {
-                ID id = (ID) answerID;
-                answers.add(id);
-            }
-            //Store new survey data
-            createSurvey.createUserSurvey(recordId, answers, userId);
 
-            res.statusCode = 201;
-            res.responseBody = Blob.valueof(JSON.serialize('Survey Saved Successful'));
+            if(userId == null) {
+                res.statusCode = 500;
+                res.responseBody = Blob.valueof(JSON.serialize('Error: User Not Found'));
+            }
+            else {
+                //Iterate questions for answers
+                for(Object question : questionObjects) {
+                    Map<String, Object> questionMap = (Map<String, Object>) question;
+                    List<Object> answerObjects = (List<Object>) questionMap.get('answers');
+                    //Add answers to answer list
+                    for(Object answer : answerObjects) {
+                        Map<String, Object> answerMap = (Map<String, Object>) answer;
+                        answers.add(ID.valueOf((String)answerMap.get('answer')));
+                    }
+                }
+                createSurvey.createUserSurvey(recordId, answers, userId);
+
+                res.statusCode = 201;
+                res.responseBody = Blob.valueof(JSON.serialize('Survey Saved Successful'));
+            }
 
         } catch(Exception e) { 
             res.statusCode = 500;
             res.responseBody = Blob.valueof('ERROR: ' + e.getStackTraceString());
-        }
-
-        
+        } 
     }
 }

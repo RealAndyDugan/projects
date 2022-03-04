@@ -59,7 +59,7 @@ global with sharing class webservices {
     global static void doPost() {
         RestRequest req = RestContext.request;
         RestResponse res = RestContext.response;
-
+        //Rework, put everything into an object on return
         try { 
             //Get template ID
             req.requestURI = '/surveys/';
@@ -67,7 +67,8 @@ global with sharing class webservices {
             //Handle incoming JSON Object list
             Object params = (Object) JSON.deserializeUntyped(req.requestBody.toString());
             Map<String, Object> mapParams = (Map<String, Object>) params;
-            List<Object> questionObjects = (List<Object>) mapParams.get('questions');
+            //List<Object> questionObjects = (List<Object>) mapParams.get('questions');
+            //List<Object> answerObjects = (List<Object>) mapParams.get('answers');
             //Storage lists
             List<ID> answers = new List<ID>();
             List<Object> answerIDs = new List<Object>();
@@ -81,26 +82,25 @@ global with sharing class webservices {
                     userId = user.ID;
                 }
             }
-
+            
             if(userId == null) {
-                res.statusCode = 204;
                 res.responseBody = Blob.valueof(JSON.serialize('Error: User Not Found'));
+                res.statusCode = 404;
             }
             else {
                 //Iterate questions for answers
-                for(Object question : questionObjects) {
-                    Map<String, Object> questionMap = (Map<String, Object>) question;
-                    List<Object> answerObjects = (List<Object>) questionMap.get('answers');
-                    //Add answers to answer list
-                    for(Object answer : answerObjects) {
-                        Map<String, Object> answerMap = (Map<String, Object>) answer;
-                        answers.add(ID.valueOf((String)answerMap.get('answer')));
-                    }
+                List<Object> answerObjects = (List<Object>) mapParams.get('answers');
+                //Add answers to answer list
+                for(Object answer : answerObjects) {
+                    Map<String, Object> answerMap = (Map<String, Object>) answer;
+                    answers.add(ID.valueOf((String)answerMap.get('answer')));
                 }
+                
                 createSurvey.createUserSurvey(recordId, answers, userId);
-
+                
+ 
                 res.statusCode = 201;
-                res.responseBody = Blob.valueof(JSON.serialize('Survey Saved Successful'));
+                res.responseBody = Blob.valueof(JSON.serialize('Survey Saved Successfully'));
             }
 
         } catch(Exception e) { 

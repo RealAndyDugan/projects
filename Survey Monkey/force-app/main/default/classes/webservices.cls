@@ -83,7 +83,7 @@ global with sharing class webservices {
             }
 
             if(userId == null) {
-                res.statusCode = 500;
+                res.statusCode = 204;
                 res.responseBody = Blob.valueof(JSON.serialize('Error: User Not Found'));
             }
             else {

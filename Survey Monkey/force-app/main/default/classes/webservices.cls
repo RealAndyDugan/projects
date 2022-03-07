@@ -13,6 +13,8 @@ global with sharing class webservices {
             List<Template__c> allTemplates = [SELECT ID, Name FROM Template__c];
             List<Question__c> allQuestions = [SELECT ID, Name, Position__c, Template__c FROM Question__c];
             List<Answer__c> allAnswers = [SELECT ID, Name, Position__c, Question__c FROM Answer__c];
+            //Return object
+            Map<String, Object> data = new Map<String, Object>();
             //Get templates
             List<Map<String, Object>> templates = new List<Map<String, Object>>();
             for(Template__c template : allTemplates) {
@@ -45,8 +47,9 @@ global with sharing class webservices {
                 temp.put('questions', questions);
                 templates.add(temp);
             }
+            data.put('data', templates);
             //Done with handling data
-            res.responseBody = Blob.valueof(JSON.serialize(templates));
+            res.responseBody = Blob.valueof(JSON.serialize(data));
             res.statusCode = 200;
 
         } catch(Exception e) {                
@@ -64,6 +67,8 @@ global with sharing class webservices {
             //Get template ID
             req.requestURI = '/surveys/';
             ID recordId = req.params.get('id');
+            //Return object
+            Map<String, Object> data = new Map<String, Object>();
             //Handle incoming JSON Object list
             Object params = (Object) JSON.deserializeUntyped(req.requestBody.toString());
             Map<String, Object> mapParams = (Map<String, Object>) params;
@@ -84,7 +89,8 @@ global with sharing class webservices {
             }
             
             if(userId == null) {
-                res.responseBody = Blob.valueof(JSON.serialize('Error: User Not Found'));
+                data.put('data', 'Error: User Not Found');
+                res.responseBody = Blob.valueof(JSON.serialize(data));
                 res.statusCode = 404;
             }
             else {
@@ -97,15 +103,17 @@ global with sharing class webservices {
                 }
                 
                 createSurvey.createUserSurvey(recordId, answers, userId);
-                
- 
+                List<String> output = new List<String>();
+                data.put('data', output);
                 res.statusCode = 201;
-                res.responseBody = Blob.valueof(JSON.serialize('Survey Saved Successfully'));
+                res.responseBody = Blob.valueof(JSON.serialize(data));
             }
 
         } catch(Exception e) { 
             res.statusCode = 500;
-            res.responseBody = Blob.valueof('ERROR: ' + e.getStackTraceString());
+            Map<String, Object> data = new Map<String, Object>();
+            data.put('data', 'ERROR: ' + e.getStackTraceString());
+            res.responseBody = Blob.valueof(JSON.serialize(data));
         } 
     }
 }

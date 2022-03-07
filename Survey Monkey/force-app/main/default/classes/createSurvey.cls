@@ -3,7 +3,7 @@ public with sharing class createSurvey {
     public static User_Survey__c createUserSurvey(ID recordId, List<ID> answers, ID userId) {
         
         Template__c template = [SELECT Name FROM Template__c WHERE ID = :recordId LIMIT 1];
-        List<Question__c> questionsDB = [SELECT ID, Name, Position__c, Template__c FROM Question__c WHERE Template__r.ID = :recordID];
+        List<Question__c> questionsDB = [SELECT ID, Name, Position__c, Template__c FROM Question__c WHERE Template__r.ID = :recordId];
         List<Answer__c> answersDB = [SELECT ID, Name, Position__c, Question__c FROM Answer__c WHERE Question__c IN :questionsDB];
 
         User_Survey__c newSurvey = new User_Survey__c (
@@ -13,6 +13,14 @@ public with sharing class createSurvey {
         );
 
         insert newSurvey;
+        createUserAnswers(answers, questionsDB, answersDB, newSurvey);
+
+        return newSurvey;
+    }
+
+    @AuraEnabled
+    public static List<User_Answer__c> createUserAnswers(List<ID> answers, List<Question__c> questionsDB, List<Answer__c> answersDB, User_Survey__c newSurvey) {
+        List<User_Answer__c> submissions = new List<User_Answer__c>();
         List<ID> iterated = new List<ID>();
         for(Answer__c answer : answersDB) {
             if(answers.contains(answer.ID)) {
@@ -32,6 +40,7 @@ public with sharing class createSurvey {
                     AnswerPosition__c = answer.Position__c,
                     AnswerName__c = answer.Name
                 );
+                submissions.add(newAnswer);
                 insert newAnswer;
             }
             else {
@@ -51,10 +60,10 @@ public with sharing class createSurvey {
                     AnswerPosition__c = answer.Position__c,
                     AnswerName__c = answer.Name
                 );
+                submissions.add(newAnswer);
                 insert newAnswer;
             }
         }
-
-        return newSurvey;
+        return submissions;
     }
 }

@@ -1,0 +1,13 @@
+.slds-scope .sm-container_responses {
+    max-height: 500px;
+}
+
+.slds-scope .sm-question-list__item {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.sm-question-list .sm-question-list__item+.sm-question-list__item{
+    border-top: 1px solid rgb(221, 219, 218);
+}

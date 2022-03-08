@@ -1,8 +1,6 @@
 @isTest 
 public class getSurveysTests {
-    //List<Template__c> templates = [SELECT ID, Name FROM Template__c];
-    //List<Question__c> questions = [SELECT ID, Name, Template__c FROM Question__c];
-    //List<Answer__c> answers = [SELECT ID, Name, Question__c FROM Answer__c];
+
     @isTest static void testGetSurveys() {
         User user = [SELECT ID, Name FROM User WHERE Name = 'Andy Dugan'];
         Template__c template = new Template__c(
@@ -52,7 +50,7 @@ public class getSurveysTests {
         correctSurvey.put('Id', userSurvey.ID);
         correctSurvey.put('name', userSurvey.Name);
         //Change to todays date
-        correctSurvey.put('date', '03/07/2022');
+        correctSurvey.put('date', '03/08/2022');
         correctSurvey.put('questions', questionList);
         correctList.add(correctSurvey);
         

@@ -1,8 +1,6 @@
 @isTest 
 public class createSurveyTests {
-    //List<Template__c> templates = [SELECT ID, Name FROM Template__c];
-    //List<Question__c> questions = [SELECT ID, Name, Template__c FROM Question__c];
-    //List<Answer__c> answers = [SELECT ID, Name, Question__c FROM Answer__c];
+    //Test creating an individual survey -- Compare survey objects
     @isTest static void testCreateSurvey() {
         Template__c template = new Template__c(
             Name = 'Test Template'
@@ -37,7 +35,7 @@ public class createSurveyTests {
 
         System.assertEquals(thisSurvey, survey);
     }
-
+    //Test creating user answers -- Compare user answer objects (Without IDs)
     @isTest static void testCreateAnswersChecked() {
         Template__c template = new Template__c(
             Name = 'Test Template'

@@ -4,6 +4,43 @@ public with sharing class getAllSurveys {
     
     @AuraEnabled(cacheable=true)
     public static List<Map<String, Object>> getAllSurveysList(ID recordId) {
+        //DML Check
+        dmlManager.checkAccess(new Map<String, Map<String, Set<String>>> {
+            'User_Answer__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'User_Survey__c',
+                    'Answer__c',
+                    'Checked__c',
+                    'QuestionPosition__c',
+                    'QuestionName__c',
+                    'AnswerPosition__c',
+                    'AnswerName__c'
+                }
+            },
+            'User_Survey__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'CreatedDate',
+                    'CreatedById'
+                }
+            },
+            'User' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name'
+                }
+            },
+            'Question__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'Template__c'
+                }
+            }
+        });
         //List of survey objects (empty)
         List<Map<String, Object>> surveys = new List<Map<String, Object>>();
         //List of surveys from DB, unformatted and without any questions or answers - for a specified template

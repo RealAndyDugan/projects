@@ -4,6 +4,30 @@ public with sharing class getSurveys {
     
     @AuraEnabled(cacheable=true)
     public static List<Map<String, Object>> getSurveyList(ID Id) {
+        //DML Check
+        dmlManager.checkAccess(new Map<String, Map<String, Set<String>>> {
+            'User_Answer__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'User_Survey__c',
+                    'Answer__c',
+                    'Checked__c',
+                    'QuestionPosition__c',
+                    'QuestionName__c',
+                    'AnswerPosition__c',
+                    'AnswerName__c'
+                }
+            },
+            'User_Survey__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'CreatedDate',
+                    'CreatedById'
+                }
+            }
+        });
         //List of survey objects
         List<Map<String, Object>> surveys = new List<Map<String, Object>>();
         //List of surveys from DB, unformatted and without any questions or answers

@@ -56,11 +56,11 @@
     <custom>false</custom>
     <tabVisibilities>
         <tab>Taking_a_Survey</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>View_All_Responses</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>View_My_Responses</tab>

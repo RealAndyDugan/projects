@@ -41,6 +41,24 @@ public with sharing class createSurvey {
                     AnswerName__c = answer.Name
                 );
                 submissions.add(newAnswer);
+                // dmlManager.checkAccess(new Map<String, Map<String, Set<String>>> {
+                //     objname=>  'Setup_Configuration__mdt' => new Map<String, Set<String>> {
+                //           'Read' => new Set<String> {
+                //      objFields=> 'Id',
+                //               'Client_Id__c',
+                //               'Client_Secret__c'
+                //           }
+                //       }
+                //   });
+                dmlManager.checkAccess(new Map<String, Map<String, Set<String>>> {
+                    'User_Answer__c' => new Map<String, Set<String>> {
+                        'Create' => new Set<String> {
+                            'ID',
+                            'Name',
+                            ''
+                        }
+                    }
+                });
                 insert newAnswer;
             }
             else {

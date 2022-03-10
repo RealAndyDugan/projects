@@ -4,28 +4,6 @@ public with sharing class dmlManager {
 
     public static Map<String, Schema.SObjectType> globalDescribe = Schema.getGlobalDescribe();
 
-    // checkAccess example param
-    //
-    // Map<String, Map<String, Set<String>>> accessMapByObjectName = new Map<String, Map<String, Set<String>>> {
-    //     'Account' => new Map<String, Set<String>> {
-    //         'Create' => new Set<String> {
-    //             'Name'
-    //         },
-    //         'Read' => new Set<String> {
-    //             'Id', 'Name'
-    //         },
-    //         'Update' => new Set<String> {
-    //             'Name'
-    //         },
-    //         'Delete' => new Set<String>()
-    //     },
-    //     'Contact' => new Map<String, Set<String>> {
-    //         'Read' => new Set<String> {
-    //             'Id', 'Name'
-    //         }
-    //     }
-    // }
-
     public static void checkAccess(Map<String, Map<String, Set<String>>> accessMapByObjectName) {
         Set<String> objectNameSet = accessMapByObjectName.keySet();
 

@@ -1,7 +1,29 @@
 public with sharing class createSurvey {
     @AuraEnabled
     public static User_Survey__c createUserSurvey(ID recordId, List<ID> answers, ID userId) {
-        
+        dmlManager.checkAccess(new Map<String, Map<String, Set<String>>> {
+            'Template__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'Name'
+                }
+            },
+            'Question__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'Position__c',
+                    'Template__c'
+                }
+            },
+            'Answer__c' => new Map<String, Set<String>> {
+                'Read' => new Set<String> {
+                    'ID',
+                    'Name',
+                    'Position__c',
+                    'Question__c'
+                }
+            }
+        });
         Template__c template = [SELECT Name FROM Template__c WHERE ID = :recordId LIMIT 1];
         List<Question__c> questionsDB = [SELECT ID, Name, Position__c, Template__c FROM Question__c WHERE Template__r.ID = :recordId];
         List<Answer__c> answersDB = [SELECT ID, Name, Position__c, Question__c FROM Answer__c WHERE Question__c IN :questionsDB];

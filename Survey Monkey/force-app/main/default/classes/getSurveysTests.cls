@@ -50,13 +50,15 @@ public class getSurveysTests {
         correctSurvey.put('Id', userSurvey.ID);
         correctSurvey.put('name', userSurvey.Name);
         //Change to todays date
-        correctSurvey.put('date', '03/08/2022');
+        correctSurvey.put('date', null);
         correctSurvey.put('questions', questionList);
         correctList.add(correctSurvey);
         
         //Results
         List<Map<String, Object>> results = getSurveys.getSurveyList(user.ID);
-
+        for(Map<String, Object> indvSurvey : results) {
+            indvSurvey.put('date', null);
+        }
         System.assertEquals(correctList, results);
     }
 }

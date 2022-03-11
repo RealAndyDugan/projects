@@ -50,7 +50,7 @@ public class getAllSurveysTests {
         correctSurvey.put('Id', userSurvey.ID);
         correctSurvey.put('name', userSurvey.Name);
         //Change to todays date
-        correctSurvey.put('date', '03/08/2022');
+        correctSurvey.put('date', null);
         correctSurvey.put('questions', questionList);
         //My user, apparently
         correctSurvey.put('user', 'Andy Dugan');
@@ -58,6 +58,9 @@ public class getAllSurveysTests {
         
         //Results
         List<Map<String, Object>> results = getAllSurveys.getAllSurveysList(template.ID);
+        for(Map<String, Object> indvSurvey : results) {
+            indvSurvey.put('date', null);
+        }
 
         System.assertEquals(correctList, results);
     }

@@ -81,19 +81,17 @@ global with sharing class webservices {
             String username = (String) mapParams.get('username');
             //User doesnt exist handling
             ID userId;
-            List<User> users = [SELECT ID, Username FROM User];
-            for(User user : users) {
-                if(user.Username == username) {
-                    userId = user.ID;
-                }
-            }
+            System.debug('Check 1');
+            List<User> users = [SELECT ID, Username FROM User WHERE Username = :username];
+            System.debug('Check 2');
             
-            if(userId == null) {
+            if(users.size() == 0) {
                 data.put('data', 'Error: User Not Found');
                 res.responseBody = Blob.valueof(JSON.serialize(data));
                 res.statusCode = 404;
             }
             else {
+                userId = users.get(0).ID;
                 //Iterate questions for answers
                 List<Object> answerObjects = (List<Object>) mapParams.get('answers');
                 //Add answers to answer list

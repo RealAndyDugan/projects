@@ -9,5 +9,5 @@
     <masterLabel>Take Survey</masterLabel>
     <openType>noSidebar</openType>
     <protected>false</protected>
-    <url>/lightning/n/Taking_a_Survey/?c__recordId={!Template__c.Id}</url>
+    <url>/lightning/n/andysSurveyMonk__Taking_a_Survey/?c__recordId={!Template__c.Id}</url>
 </WebLink>

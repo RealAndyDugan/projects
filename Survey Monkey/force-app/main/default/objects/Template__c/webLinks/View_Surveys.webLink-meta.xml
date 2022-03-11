@@ -16,5 +16,5 @@
     <protected>false</protected>
     <showsLocation>false</showsLocation>
     <showsStatus>false</showsStatus>
-    <url>/lightning/n/View_All_Responses/?c__recordId={!Template__c.Id}</url>
+    <url>/lightning/n/andysSurveyMonk__View_All_Responses/?c__recordId={!Template__c.Id}</url>
 </WebLink>

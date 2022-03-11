@@ -8,6 +8,7 @@ import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { NavigationMixin } from 'lightning/navigation';
 import NAME_FIELD from '@salesforce/schema/Template__c.Name';
 import Id from '@salesforce/user/Id';
+import SystemModstamp from '@salesforce/schema/Account.SystemModstamp';
 
 const FIELDS = [
     NAME_FIELD,
@@ -16,6 +17,7 @@ const FIELDS = [
 export default class TakeSurvey extends NavigationMixin(LightningElement) {
     surveyMonkeyLogo = logo;
     userId = Id;
+    questions = [];
 
     //Get template ID from URL param
     @track recordId;
@@ -39,9 +41,23 @@ export default class TakeSurvey extends NavigationMixin(LightningElement) {
         return getFieldValue(this.templates.data, NAME_FIELD);
     }
 
+    connectedCallback(){
+        getQuestionList({recordId: this.recordId}).then(res => {
+            let parsedRes = JSON.parse(res);
+
+            if (parsedRes.isSuccess) {
+              this.questions = parsedRes.results.questions;
+            } else {
+               console.log(error);
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     //Get questions and respective answers
-    @wire(getQuestionList, { Id: '$recordId' })
-    questions;
+    //@wire(getQuestionList, { Id: '$recordId' })
+    //questions;
 
     //Checkbox storage
     @track index;

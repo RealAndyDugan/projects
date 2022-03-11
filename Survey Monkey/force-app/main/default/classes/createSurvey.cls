@@ -42,6 +42,7 @@ public with sharing class createSurvey {
                 }
             }
         });
+        
         insert newSurvey;
         createUserAnswers(answers, questionsDB, answersDB, newSurvey);
 

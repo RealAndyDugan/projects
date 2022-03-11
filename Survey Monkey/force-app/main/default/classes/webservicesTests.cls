@@ -54,14 +54,34 @@ public class webservicesTests {
             Question__c = question.ID
         );
         insert answer;
-        String user = 'andy.dugan@resourceful-raccoon-7j34h6.com';
+        //Get profile
+        Profile profile = [SELECT Id, Name, Description
+        FROM Profile
+        WHERE Name = 'System Administrator'];
+        //User Creation
+        User user = new User(
+            ProfileId = profile.ID, // change id?
+            Alias = 'test',
+            Username = 'testtester@email.com',
+            Email = 'test@email.com',
+            FirstName = 'test',
+            LastName = 'test',
+            LocaleSidKey = 'en_US',
+            LanguageLocaleKey = 'en_US',
+            EmailEncodingKey = 'UTF-8',
+            TimeZoneSidKey = 'America/Los_Angeles'
+        );
+        insert user;
+        //End User Creation
+        //Basic user creation for my org
+        //String user = 'andy.dugan@resourceful-raccoon-7j34h6.com';
         Map<String, Object> data = new Map<String, Object>();
         List<Map<String, Object>> answers = new List<Map<String, Object>>();
         Map<String, Object> answerObject = new Map<String, Object>();
         answerObject.put('answer', answer.ID);
         answers.add(answerObject);
         data.put('answers', answers);
-        data.put('username', user);
+        data.put('username', user.Username);
 
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();
@@ -75,7 +95,9 @@ public class webservicesTests {
         RestContext.request = req;
         RestContext.response= res;
 
+        Test.startTest();
         webservices.doPost();
+        Test.stopTest();
         User_Answer__c result = [SELECT AnswerName__c FROM User_Answer__c LIMIT 1];
         System.assertEquals(answer.Name, result.AnswerName__c);
     }

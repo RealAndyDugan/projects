@@ -15,17 +15,16 @@ public class getQuestionsTests {
 
         Map<String, Object> correctQuestion = new Map<String, Object>();
         correctQuestion.put('Name', question.Name);
-        correctQuestion.put('Position', question.Position__c);
-        correctQuestion.put('ID', question.ID);
 
-        List<Question__c> results = getQuestions.getQuestionList(template.ID);
-        Question__c result = results.get(0);
+        String JSONString = getQuestions.getQuestionList(template.ID);
+        Map<String, Object> parsedRes = (Map<String, Object>)JSON.deserializeUntyped(JSONString);
+        Map<String, Object> results = (Map<String, Object>) parsedRes.get('results');
+        List<Object> questions = (List<Object>)results.get('questions');
+        Map<String, Object> result = (Map<String, Object>) questions.get(0);
 
         Map<String, Object> resultQuestion = new Map<String, Object>();
-        resultQuestion.put('Name', result.Name);
-        resultQuestion.put('Position', result.Position__c);
-        resultQuestion.put('ID', result.ID);
+        resultQuestion.put('Name', (String) result.get('Name'));
 
-        System.assertEquals(correctQuestion, resultQuestion);
+        System.assertEquals(question.Name, (String) resultQuestion.get('Name'));
     }
 }

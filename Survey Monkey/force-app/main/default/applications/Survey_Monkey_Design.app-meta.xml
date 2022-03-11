@@ -9,8 +9,7 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>Survey Monkey Design</label>
     <navType>Standard</navType>
-    <tabs>Taking_a_Survey</tabs>
+    <tabs>Template__c</tabs>
     <tabs>View_My_Responses</tabs>
-    <tabs>View_All_Responses</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

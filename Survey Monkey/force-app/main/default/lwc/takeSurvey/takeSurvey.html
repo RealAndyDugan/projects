@@ -17,9 +17,9 @@
                 <div class="sm-container_responses slds-p-horizontal_small slds-scrollable_y">
                     <ul class="sm-question-list">
                             <!-- Question # -->
-                            <template if:true={questions.data}>
+                            <template if:true={questions}>
                                 
-                                <template for:each={questions.data} for:item="question">
+                                <template for:each={questions} for:item="question">
                                     <li key={question.Id} class="sm-question-list__item slds-p-vertical_large slds-p-horizontal_x-small">
                                         <h4 key={question.Id} class="slds-text-title_caps slds-m-bottom_small">
                                             <strong>Q{question.Position__c}</strong>
@@ -31,19 +31,21 @@
                                         </h2>
                                         <!-- /Question -->
                                         <!-- Response -->
-                                        <template for:each={question.Answers__r} for:item="answer">
-                                            <div key={answer.Id} class="slds-text-heading_small slds-m-left_medium">
-                                                <div class="col">
-                                                    <lightning-input    
-                                                        value={answer.Id}
-                                                        type="checkbox"
-                                                        label={answer.Name}
-                                                        data-id="checkbox"
-                                                        
-                                                        onchange={handleCheckBoxChange}>
-                                                    </lightning-input>
+                                        <template if:true={questions.Answers__r}>
+                                            <template for:each={question.Answers__r.records} for:item="answer">
+                                                <div key={answer.Id} class="slds-text-heading_small slds-m-left_medium">
+                                                    <div class="col">
+                                                        <lightning-input    
+                                                            value={answer.Id}
+                                                            type="checkbox"
+                                                            label={answer.Name}
+                                                            data-id="checkbox"
+                                                            
+                                                            onchange={handleCheckBoxChange}>
+                                                        </lightning-input>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </template>
                                         </template>
                                     </li>
                                 </template>
